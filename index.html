@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+
+
+    <script type="text/javascript">
+
+        alert("浏览器:" + getExplorerInfo().type + "\n 版本:" + getExplorerInfo().version);
+
+        function getExplorerInfo() {
+            var explorer = window.navigator.userAgent.toLowerCase();
+            //ie
+            if (explorer.indexOf("msie") >= 0) {
+                var ver = explorer.match(/msie ([\d.]+)/)[1];
+                return { type: "IE", version: ver };
+            }
+            else if(explorer.indexOf("edge") >= 0){
+                var ver = explorer.match(/edge\/([\d.]+)/)[1];
+                return { type: "Edge", version: ver };
+            }
+            //firefox
+            else if (explorer.indexOf("firefox") >= 0) {
+                var ver = explorer.match(/firefox\/([\d.]+)/)[1];
+                return { type: "Firefox", version: ver };
+            }
+            //Chrome
+            else if (explorer.indexOf("chrome") >= 0) {
+                var ver = explorer.match(/chrome\/([\d.]+)/)[1];
+                return { type: "Chrome", version: ver };
+            }
+            //Opera
+            else if (explorer.indexOf("opera") >= 0) {
+                var ver = explorer.match(/opera.([\d.]+)/)[1];
+                return { type: "Opera", version: ver };
+            }
+            //Safari
+            else if (explorer.indexOf("Safari") >= 0) {
+                var ver = explorer.match(/version\/([\d.]+)/)[1];
+                return { type: "Safari", version: ver };
+            } else {
+                var win = window;
+                var doc = win.document;
+                var input = doc.createElement("input");
+                var ie = (function () {
+                    //"!win.ActiveXObject" is evaluated to true in IE11
+                    if (win.ActiveXObject === undefined) return null;
+                    if (!win.XMLHttpRequest) return 6;
+                    if (!doc.querySelector) return 7;
+                    if (!doc.addEventListener) return 8;
+                    if (!win.atob) return 9;
+                    //"!doc.body.dataset" is faster but the body is null when the DOM is not
+                    //ready. Anyway, an input tag needs to be created to check if IE is being
+                    //emulated
+                    if (!input.dataset) return 10;
+                    return 11;
+                })();
+                return { type: "IE", version: ie };
+            }
+        }
+    </script>
+</body>
+
+</html>
